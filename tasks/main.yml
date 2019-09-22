@@ -1,0 +1,16 @@
+---
+# tasks file for flask_web
+- name: Install Python Flask dependency
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - flask
+    - flask-mysql
+
+- name: Copy source code
+  copy: src=app.py dest=/opt/app.py
+
+- name: Start Web Server
+  shell: FLASK_APP=/opt/app.py nohup flask run --host=0.0.0.0 &
+  #The & is used to say that you don't need to wait the answer and that you can let the terminal free for a new command
